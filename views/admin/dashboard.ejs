@@ -9,6 +9,7 @@
 </head>
 <body>
 <header class="admin-top">
+  <!-- Bu yerda admin-wrap qolishi mumkin -->
   <div class="admin-wrap admin-top-row">
     <div class="admin-logo">AVTOCHEXOL.uz — ADMIN</div>
     <div class="admin-top-right">
@@ -18,8 +19,9 @@
   </div>
 </header>
 
-<div class="admin-wrap admin-body">
-<nav class="admin-tabs">
+<!-- DIQQAT: Mana bu yerdagi "admin-wrap" so'zi olib tashlandi -->
+<div class="admin-body">
+  <nav class="admin-tabs">
     <a href="/admin?tab=sozlamalar" class="<%= tab==='sozlamalar' ? 'active' : '' %>">
       <span class="tab-icon">⚙️</span> Sozlamalar
     </a>
@@ -42,9 +44,9 @@
       <span class="tab-icon">📝</span> Blog
     </a>
   </nav>
+
   <main class="admin-content">
     <% if (saved) { %><div class="saved-banner">✓ Saqlandi</div><% } %>
-
 
     
     <!-- ============ SOZLAMALAR ============ -->

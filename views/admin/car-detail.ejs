@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — <%= car.name %> narxlari</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+<header class="admin-top">
+  <div class="admin-wrap admin-top-row">
+    <div class="admin-logo">AVTOCHEXOL.uz — ADMIN</div>
+    <div class="admin-top-right">
+      <a href="/" target="_blank" class="admin-link">Saytni ko'rish ↗</a>
+      <form method="POST" action="/admin/logout"><button class="admin-link-btn">Chiqish</button></form>
+    </div>
+  </div>
+</header>
+
+<div class="admin-wrap" style="padding:36px 24px 60px;">
+  <a href="/admin?tab=avtomobillar" class="back-link">← Avtomobillar ro'yxatiga qaytish</a>
+
+  <% if (saved) { %><div class="saved-banner">✓ Saqlandi</div><% } %>
+
+  <div class="admin-content" style="margin-top:16px;">
+    <h2><%= car.name %> — ma'lumotlari</h2>
+    <form method="POST" action="/admin/cars/<%= car.id %>/update" enctype="multipart/form-data" class="inline-form" style="margin-bottom:30px;">
+      <input name="name" value="<%= car.name %>" required>
+      <input type="file" name="image" accept="image/*">
+      <button type="submit" class="btn-save">Saqlash</button>
+    </form>
+    <img src="<%= car.image %>" alt="<%= car.name %>" style="max-width:260px; border-radius:10px; margin-bottom:30px;">
+
+    <h2><%= car.name %> uchun xizmatlar va narxlar</h2>
+    <p class="hint">Bu ro'yxat faqat <%= car.name %> uchun amal qiladi — boshqa modellarga ta'sir qilmaydi.</p>
+
+    <div class="service-table">
+      <div class="service-row-head">
+        <span>Xizmat nomi</span><span>Tavsif</span><span>Narx (so'm)</span><span></span>
+      </div>
+      <% car.services.forEach(s => { %>
+        <form method="POST" action="/admin/cars/<%= car.id %>/services/<%= s.id %>/update" class="service-row-edit"
+              onsubmit="return event.submitter && event.submitter.name==='delete' ? confirm('O\'chirilsinmi?') : true;">
+          <input name="name" value="<%= s.name %>" required>
+          <input name="desc" value="<%= s.desc %>">
+          <input name="price" type="number" value="<%= s.price %>" required>
+          <span class="row-actions">
+            <button type="submit" class="btn-mini">Saqlash</button>
+            <button type="submit" name="delete" formaction="/admin/cars/<%= car.id %>/services/<%= s.id %>/delete" class="btn-mini danger">O'chirish</button>
+          </span>
+        </form>
+      <% }) %>
+      <% if (car.services.length === 0) { %>
+        <div style="padding:20px; color:var(--ink-faint); font-size:13.5px;">Hali xizmat qo'shilmagan.</div>
+      <% } %>
+    </div>
+
+    <h3 style="margin-top:26px;">Yangi xizmat qo'shish</h3>
+    <form method="POST" action="/admin/cars/<%= car.id %>/services/add" class="inline-form">
+      <input name="name" placeholder="Xizmat nomi" required>
+      <input name="desc" placeholder="Qisqa tavsif">
+      <input name="price" type="number" placeholder="Narx (so'm)" required>
+      <button type="submit" class="btn-save">Qo'shish</button>
+    </form>
+  </div>
+</div>
+</body>
+</html>

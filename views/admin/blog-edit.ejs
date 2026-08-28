@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — Maqolani tahrirlash</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+<header class="admin-top">
+  <div class="admin-wrap admin-top-row">
+    <div class="admin-logo">SALON USTA — ADMIN</div>
+    <div class="admin-top-right">
+      <a href="/" target="_blank" class="admin-link">Saytni ko'rish ↗</a>
+      <form method="POST" action="/admin/logout"><button class="admin-link-btn">Chiqish</button></form>
+    </div>
+  </div>
+</header>
+
+<div class="admin-wrap" style="padding:36px 24px 60px;">
+  <a href="/admin?tab=blog" class="back-link">← Maqolalar ro'yxatiga qaytish</a>
+
+  <% if (saved) { %><div class="saved-banner">✓ Saqlandi</div><% } %>
+
+  <div class="admin-content" style="margin-top:16px;">
+    <h2>Maqolani tahrirlash</h2>
+    <form method="POST" action="/admin/blog/<%= post.id %>/update" enctype="multipart/form-data" class="grid-form">
+      <label>Kategoriya
+        <input name="cat" value="<%= post.cat %>">
+      </label>
+      <label>Sarlavha
+        <input name="title" value="<%= post.title %>" required>
+      </label>
+      <label class="full">Qisqa matn (excerpt — kartochkada ko'rinadi)
+        <textarea name="excerpt"><%= post.excerpt %></textarea>
+      </label>
+      <label class="full">To'liq maqola matni (har bir paragrafni bo'sh qator bilan ajrating)
+        <textarea name="content" style="min-height:260px;"><%= post.content %></textarea>
+      </label>
+      <label class="full">Rasm (yangisini yuklasangiz eskisi almashadi)
+        <input type="file" name="image" accept="image/*">
+      </label>
+      <% if (post.image) { %>
+        <img src="<%= post.image %>" alt="" style="max-width:200px; border-radius:8px;">
+      <% } %>
+      <button class="btn-save full" type="submit">Saqlash</button>
+    </form>
+  </div>
+</div>
+</body>
+</html>

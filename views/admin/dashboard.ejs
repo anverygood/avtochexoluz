@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin panel — <%= settings.shopName %></title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+<header class="admin-top">
+  <div class="admin-wrap admin-top-row">
+    <div class="admin-logo">AVTOCHEXOL.uz — ADMIN</div>
+    <div class="admin-top-right">
+      <a href="/" target="_blank" class="admin-link">Saytni ko'rish ↗</a>
+      <form method="POST" action="/admin/logout"><button class="admin-link-btn">Chiqish</button></form>
+    </div>
+  </div>
+</header>
+
+<div class="admin-wrap admin-body">
+<nav class="admin-tabs">
+    <a href="/admin?tab=sozlamalar" class="<%= tab==='sozlamalar' ? 'active' : '' %>">
+      <span class="tab-icon">⚙️</span> Sozlamalar
+    </a>
+    <a href="/admin?tab=avtomobillar" class="<%= tab==='avtomobillar' ? 'active' : '' %>">
+      <span class="tab-icon">🚗</span> Avtomobillar / Narxlar
+    </a>
+    <a href="/admin?tab=kunlik" class="<%= tab==='kunlik' ? 'active' : '' %>">
+      <span class="tab-icon">⚡</span> Kunlik ishlar
+    </a>
+    <a href="/admin?tab=oldinkeyin" class="<%= tab==='oldinkeyin' ? 'active' : '' %>">
+      <span class="tab-icon">⚖️</span> Oldin / Keyin
+    </a>
+    <a href="/admin?tab=media" class="<%= tab==='media' ? 'active' : '' %>">
+      <span class="tab-icon">🎬</span> Video / Rasm
+    </a>
+    <a href="/admin?tab=izohlar" class="<%= tab==='izohlar' ? 'active' : '' %>">
+      <span class="tab-icon">💬</span> Izohlar
+    </a>
+    <a href="/admin?tab=blog" class="<%= tab==='blog' ? 'active' : '' %>">
+      <span class="tab-icon">📝</span> Blog
+    </a>
+  </nav>
+  <main class="admin-content">
+    <% if (saved) { %><div class="saved-banner">✓ Saqlandi</div><% } %>
+
+
+    
+    <!-- ============ SOZLAMALAR ============ -->
+    <% if (tab === 'sozlamalar') { %>
+      <h2>Umumiy sozlamalar</h2>
+      <p class="hint">Sayt nomi, kontakt ma'lumotlari va chegirma bannerini shu yerdan boshqarasiz.</p>
+      <form method="POST" action="/admin/settings" class="grid-form">
+        <label>Ustaxona nomi
+          <input name="shopName" value="<%= settings.shopName %>" required>
+        </label>
+        <label>Tagline (hero ustidagi qisqa matn)
+          <input name="tagline" value="<%= settings.tagline %>">
+        </label>
+        <label>Bosh sarlavha (hero)
+          <input name="heroTitle" value="<%= settings.heroTitle %>">
+        </label>
+        <label class="full">Hero tavsif matni
+          <textarea name="heroText"><%= settings.heroText %></textarea>
+        </label>
+        <label>Telefon raqami
+          <input name="phone" value="<%= settings.phone %>" required>
+        </label>
+        <label>Telegram havolasi
+          <input name="telegram" value="<%= settings.telegram %>">
+        </label>
+        <label>Instagram havolasi
+          <input name="instagram" value="<%= settings.instagram %>">
+        </label>
+        <label>YouTube havolasi (ixtiyoriy)
+          <input name="youtube" value="<%= settings.youtube %>">
+        </label>
+        <label class="full">Manzil (matn ko'rinishida)
+          <input name="address" value="<%= settings.address %>">
+        </label>
+        <label class="full">Google Maps qidiruv so'zi
+          <input name="mapQuery" value="<%= settings.mapQuery %>">
+        </label>
+        <label>Chegirma nishoni (badge matni)
+          <input name="discountBadge" value="<%= settings.discountBadge %>">
+        </label>
+        <label>Chegirma tugash sanasi (ixtiyoriy)
+          <input name="discountEnd" type="date" value="<%= settings.discountEnd %>">
+        </label>
+        <label class="full">Chegirma matni
+          <input name="discountText" value="<%= settings.discountText %>">
+        </label>
+        <label class="full">Footer izoh matni
+          <input name="footerNote" value="<%= settings.footerNote %>">
+        </label>
+        <button class="btn-save full" type="submit">Saqlash</button>
+      </form>
+    <% } %>
+
+    <!-- ============ AVTOMOBILLAR ============ -->
+    <% if (tab === 'avtomobillar') { %>
+      <h2>Avtomobil modellari</h2>
+      <p class="hint">Har bir modelning narxlarini alohida tahrirlash uchun "Narxlarni boshqarish" tugmasini bosing.</p>
+
+      <div class="card-list">
+        <% cars.forEach(car => { %>
+          <div class="item-card">
+            <img src="<%= car.image %>" alt="<%= car.name %>" class="item-thumb">
+            <div style="flex:1;">
+              <b><%= car.name %></b>
+              <span class="muted" style="display:block;"><%= car.services.length %> ta xizmat</span>
+            </div>
+            <a href="/admin/cars/<%= car.id %>" class="btn-mini">Narxlarni boshqarish</a>
+            <form method="POST" action="/admin/cars/<%= car.id %>/delete" onsubmit="return confirm('Bu model va uning barcha narxlari o\'chiriladi. Davom etilsinmi?')">
+              <button type="submit" class="btn-mini danger">O'chirish</button>
+            </form>
+          </div>
+        <% }) %>
+      </div>
+
+      <h3>Yangi model qo'shish</h3>
+      <form method="POST" action="/admin/cars/add" enctype="multipart/form-data" class="inline-form">
+        <input name="name" placeholder="Model nomi (masalan: Malibu)" required>
+        <input type="file" name="image" accept="image/*">
+        <button type="submit" class="btn-save">Qo'shish</button>
+      </form>
+    <% } %>
+
+    <!-- ============ KUNLIK ISHLAR (story) ============ -->
+    <% if (tab === 'kunlik') { %>
+      <h2>Kunlik ishlar (tepadagi "story" tasmasi)</h2>
+      <p class="hint">Har bir kun uchun bitta rasm va qisqa yozuv qo'shing — saytning yuqorisida doira ko'rinishida chiqadi.</p>
+
+      <div class="card-list">
+        <% stories.slice().reverse().forEach(s => { %>
+          <div class="item-card">
+            <img src="<%= s.image %>" alt="<%= s.label %>" class="item-thumb">
+            <div style="flex:1;">
+              <b><%= s.label %></b>
+              <span class="muted" style="display:block;"><%= s.date %></span>
+            </div>
+            <form method="POST" action="/admin/stories/<%= s.id %>/delete" onsubmit="return confirm('O\'chirilsinmi?')">
+              <button type="submit" class="btn-mini danger">O'chirish</button>
+            </form>
+          </div>
+        <% }) %>
+        <% if (stories.length === 0) { %><p class="muted">Hali kunlik ish qo'shilmagan.</p><% } %>
+      </div>
+
+      <h3>Yangi kunlik ish qo'shish</h3>
+      <form method="POST" action="/admin/stories/add" enctype="multipart/form-data" class="inline-form">
+        <input name="label" placeholder="Qisqa yozuv (masalan: Cobalt — full shumoizolyatsiya)" required>
+        <input type="file" name="image" accept="image/*" required>
+        <button type="submit" class="btn-save">Qo'shish</button>
+      </form>
+    <% } %>
+
+    <!-- ============ OLDIN / KEYIN ============ -->
+    <% if (tab === 'oldinkeyin') { %>
+      <h2>Oldin / Keyin</h2>
+      <p class="hint">Har bir ish uchun ikkita rasm yuklang — "oldin" va "keyin". Saytda suradigan slayder ko'rinishida chiqadi.</p>
+
+      <div class="card-list">
+        <% beforeafter.forEach(b => { %>
+          <div class="item-card">
+            <img src="<%= b.beforeImage %>" alt="oldin" class="item-thumb">
+            <img src="<%= b.afterImage %>" alt="keyin" class="item-thumb">
+            <div style="flex:1;"><b><%= b.label %></b></div>
+            <form method="POST" action="/admin/beforeafter/<%= b.id %>/delete" onsubmit="return confirm('O\'chirilsinmi?')">
+              <button type="submit" class="btn-mini danger">O'chirish</button>
+            </form>
+          </div>
+        <% }) %>
+        <% if (beforeafter.length === 0) { %><p class="muted">Hali oldin/keyin juftligi qo'shilmagan.</p><% } %>
+      </div>
+
+      <h3>Yangi juftlik qo'shish</h3>
+      <form method="POST" action="/admin/beforeafter/add" enctype="multipart/form-data" class="grid-form">
+        <label class="full">Sarlavha (masalan: "Full shumoizolyatsiya — Cobalt")
+          <input name="label" required>
+        </label>
+        <label>Oldin rasmi
+          <input type="file" name="beforeImage" accept="image/*" required>
+        </label>
+        <label>Keyin rasmi
+          <input type="file" name="afterImage" accept="image/*" required>
+        </label>
+        <button class="btn-save full" type="submit">Qo'shish</button>
+      </form>
+    <% } %>
+
+    <!-- ============ VIDEO / RASM (media) ============ -->
+    <% if (tab === 'media') { %>
+      <h2>Video va rasm galereyasi</h2>
+      <p class="hint">Fayl yuklashingiz yoki tashqi havola (masalan YouTube) qo'yishingiz mumkin.</p>
+
+      <div class="card-list">
+        <% media.slice().reverse().forEach(m => { %>
+          <div class="item-card">
+            <span class="media-tag"><%= m.type === 'video' ? '🎬 Video' : '🖼 Rasm' %></span>
+            <div style="flex:1;">
+              <span class="muted" style="word-break:break-all;"><%= m.src %></span>
+              <b style="display:block;"><%= m.caption %></b>
+            </div>
+            <form method="POST" action="/admin/media/<%= m.id %>/delete" onsubmit="return confirm('O\'chirilsinmi?')">
+              <button type="submit" class="btn-mini danger">O'chirish</button>
+            </form>
+          </div>
+        <% }) %>
+        <% if (media.length === 0) { %><p class="muted">Hali video/rasm qo'shilmagan.</p><% } %>
+      </div>
+
+      <h3>Yangi qo'shish</h3>
+      <form method="POST" action="/admin/media/add" enctype="multipart/form-data" class="grid-form">
+        <label>Turi
+          <select name="type">
+            <option value="photo">Rasm</option>
+            <option value="video">Video</option>
+          </select>
+        </label>
+        <label>Izoh (caption)
+          <input name="caption" placeholder="masalan: Nexia — chexol tikish jarayoni">
+        </label>
+        <label>Fayl yuklash (rasm yoki video)
+          <input type="file" name="file" accept="image/*,video/*">
+        </label>
+        <label>...yoki tashqi havola (YouTube va h.k.)
+          <input name="externalUrl" placeholder="https://youtube.com/watch?v=...">
+        </label>
+        <button class="btn-save full" type="submit">Qo'shish</button>
+      </form>
+    <% } %>
+
+    <!-- ============ IZOHLAR ============ -->
+    <% if (tab === 'izohlar') { %>
+      <h2>Mijoz izohlari</h2>
+      <p class="hint">Hozircha qo'lda qo'shiladi. Kelajakda Telegram guruhidan avtomatik olib kelish mumkin.</p>
+
+      <div class="card-list">
+        <% reviews.forEach(r => { %>
+          <div class="item-card review-item">
+            <div>
+              <b><%= r.name %></b> <span class="muted">(<%= r.tag %>)</span> — <%= '★'.repeat(r.stars) %><%= '☆'.repeat(5-r.stars) %>
+              <p class="muted"><%= r.text %></p>
+            </div>
+            <form method="POST" action="/admin/reviews/<%= r.id %>/delete" onsubmit="return confirm('O\'chirilsinmi?')">
+              <button type="submit" class="btn-mini danger">O'chirish</button>
+            </form>
+          </div>
+        <% }) %>
+      </div>
+
+      <h3>Yangi izoh qo'shish</h3>
+      <form method="POST" action="/admin/reviews/add" class="grid-form">
+        <label>Ism <input name="name" required></label>
+        <label>Avtomobil / teg <input name="tag" placeholder="masalan: Cobalt egasi"></label>
+        <label>Yulduzcha (1-5) <input name="stars" type="number" min="1" max="5" value="5"></label>
+        <label class="full">Izoh matni <textarea name="text" required></textarea></label>
+        <button class="btn-save full" type="submit">Qo'shish</button>
+      </form>
+    <% } %>
+
+    <!-- ============ BLOG ============ -->
+    <% if (tab === 'blog') { %>
+      <h2>Blog maqolalari</h2>
+      <p class="hint">Mijozlarga foydali bo'ladigan qisqa maqolalar — nega bu xizmat kerakligini tushuntiruvchi.</p>
+
+      <div class="card-list">
+        <% blog.forEach(p => { %>
+          <div class="item-card review-item">
+            <div>
+              <span class="muted"><%= p.cat %></span>
+              <b style="display:block;"><%= p.title %></b>
+              <p class="muted"><%= p.excerpt %></p>
+            </div>
+            <a href="/admin/blog/<%= p.id %>" class="btn-mini">Tahrirlash</a>
+            <form method="POST" action="/admin/blog/<%= p.id %>/delete" onsubmit="return confirm('O\'chirilsinmi?')">
+              <button type="submit" class="btn-mini danger">O'chirish</button>
+            </form>
+          </div>
+        <% }) %>
+      </div>
+
+      <h3>Yangi maqola qo'shish</h3>
+      <form method="POST" action="/admin/blog/add" enctype="multipart/form-data" class="grid-form">
+        <label>Kategoriya <input name="cat" placeholder="masalan: Shumoizolyatsiya"></label>
+        <label>Sarlavha <input name="title" required></label>
+        <label class="full">Qisqa matn (excerpt) <textarea name="excerpt"></textarea></label>
+<label class="full">To'liq maqola matni (paragraflarni bo'sh qator bilan ajrating) <textarea name="content" style="min-height:180px;"></textarea></label>
+        <label class="full">Rasm (ixtiyoriy) <input type="file" name="image" accept="image/*"></label>
+        <button class="btn-save full" type="submit">Qo'shish</button>
+      </form>
+    <% } %>
+  </main>
+</div>
+</body>
+</html>

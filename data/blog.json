@@ -1,0 +1,38 @@
+[
+  {
+    "id": 2,
+    "cat": "Chexol",
+    "title": "Chexolni qachon almashtirish kerak?",
+    "excerpt": "Yirtilish, rang o'chishi va tikuv bo'shashi — chexolni yangilash vaqti kelganining belgilari.",
+    "image": ""
+  },
+  {
+    "id": 3,
+    "cat": "Suv o'tkazmaslik",
+    "title": "Salon poliki nima uchun himoyalanishi kerak?",
+    "excerpt": "Namlik metall qismlarni zanglatishi va yomon hidga sabab bo'lishi mumkin — oldini olish yechimlari.",
+    "image": ""
+  },
+  {
+    "id": 4,
+    "cat": "Mavsumiy",
+    "title": "Qishga mashina salonini qanday tayyorlash kerak?",
+    "excerpt": "Sovuqda material xususiyatlari o'zgaradi — qaysi ishlarni qishdan oldin qilish tavsiya etiladi.",
+    "image": ""
+  },
+  {
+    "id": 5,
+    "cat": "Material",
+    "title": "Qanday shumoizolyatsiya materiali tanlash kerak?",
+    "excerpt": "Qalinlik, zichlik va issiqlikka chidamlilik — narx va sifat o'rtasidagi muvozanatni qanday topish mumkin.",
+    "image": ""
+  },
+  {
+    "id": 6,
+    "cat": "Shumoizolyatsiya",
+    "title": "Nima uchun biz shumoizolyatsiya qilamiz",
+    "excerpt": "Nima uchun biz shumoizolyatsiya qilamiz",
+    "content": "Nima uchun biz shumoizolyatsiya qilamiz",
+    "image": "/uploads/blog/1787803522241-39719.png"
+  }
+]

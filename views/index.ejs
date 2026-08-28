@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title><%= settings.shopName %> — Avtomobil saloni ta'mirlash xizmatlari</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<!-- ================= NAV ================= -->
+<header class="site-nav">
+  <div class="wrap nav-row">
+    <div class="logo"><span class="dot"></span> <%= settings.shopName %></div>
+    <nav class="links">
+      <a href="#narxlar">Narxlar</a>
+      <a href="#ishlarimiz">Ishlarimiz</a>
+      <a href="#video">Video/Foto</a>
+      <a href="#izohlar">Izohlar</a>
+      <a href="#blog">Maqolalar</a>
+      <a href="#aloqa">Aloqa</a>
+    </nav>
+    <div class="nav-right">
+      <span class="nav-phone mono"><%= settings.phone %></span>
+      <a class="icon-btn" href="<%= settings.telegram %>" aria-label="Telegram" target="_blank" rel="noopener">✈</a>
+      <a class="icon-btn" href="<%= settings.instagram %>" aria-label="Instagram" target="_blank" rel="noopener">◎</a>
+      <button class="burger" aria-label="Menyu" onclick="document.getElementById('mnav').classList.toggle('show')">≡</button>
+    </div>
+  </div>
+  <div id="mnav" style="display:none;" class="wrap">
+    <div style="display:flex; flex-direction:column; gap:2px; padding-bottom:16px;">
+      <a href="#narxlar" style="padding:10px 0; border-bottom:1px solid var(--line);">Narxlar</a>
+      <a href="#ishlarimiz" style="padding:10px 0; border-bottom:1px solid var(--line);">Ishlarimiz</a>
+      <a href="#video" style="padding:10px 0; border-bottom:1px solid var(--line);">Video/Foto</a>
+      <a href="#izohlar" style="padding:10px 0; border-bottom:1px solid var(--line);">Izohlar</a>
+      <a href="#blog" style="padding:10px 0; border-bottom:1px solid var(--line);">Maqolalar</a>
+      <a href="#aloqa" style="padding:10px 0;">Aloqa</a>
+    </div>
+  </div>
+</header>
+
+<!-- ================= STORY STRIP (kunlik ishlar) ================= -->
+<div class="story-strip">
+  <div class="wrap">
+    <div class="story-track" id="storyTrack"></div>
+  </div>
+</div>
+
+
+
+
+
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow"><%= settings.tagline %></div>
+      <h1><%= settings.heroTitle %></h1>
+      <p class="lead"><%= settings.heroText %></p>
+      <div class="hero-ctas">
+        <a class="btn btn-accent" href="#narxlar">Narxni ko'rish</a>
+        <a class="btn btn-primary" href="#aloqa">Yozilish</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><b class="mono"><%= cars.length %>+</b><span>Avtomobil modeli</span></div>
+        <div class="hero-stat"><b class="mono"><%= cars.reduce((sum,c)=>sum+c.services.length,0) %></b><span>Xizmat turi (jami)</span></div>
+        <div class="hero-stat"><b class="mono">1 kun</b><span>O'rtacha bajarish muddati</span></div>
+      </div>
+    </div>
+    <div class="dash-visual" aria-hidden="true">
+      <div class="dash-top"><span><%= settings.shopName %> — DIAGNOSTIKA</span><span id="clock">00:00:00</span></div>
+      <div class="dash-gauges">
+        <div class="gauge">
+          <svg viewBox="0 0 100 60"><path d="M8,55 A42,42 0 0 1 92,55" fill="none" stroke="#2A3338" stroke-width="7"/><path d="M8,55 A42,42 0 0 1 92,55" fill="none" stroke="#DE9F35" stroke-width="7" stroke-dasharray="132" stroke-dashoffset="30" stroke-linecap="round"/></svg>
+          <b>Shovqin −18dB</b><span>Shumoizolyatsiya</span>
+        </div>
+        <div class="gauge">
+          <svg viewBox="0 0 100 60"><path d="M8,55 A42,42 0 0 1 92,55" fill="none" stroke="#2A3338" stroke-width="7"/><path d="M8,55 A42,42 0 0 1 92,55" fill="none" stroke="#2E5C64" stroke-width="7" stroke-dasharray="132" stroke-dashoffset="55" stroke-linecap="round"/></svg>
+          <b>100% quruq</b><span>Suv o'tkazmaslik</span>
+        </div>
+      </div>
+      <div class="dash-bottom">Har bir buyurtma — model, material va narx bo'yicha alohida hisoblanadi.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= DISCOUNT RIBBON ================= -->
+<div class="ribbon">
+  <div class="wrap ribbon-inner">
+    <div class="ribbon-left">
+      <span class="ribbon-badge"><%= settings.discountBadge %></span>
+      <span><%= settings.discountText %></span>
+    </div>
+    <div class="countdown" id="countdown">
+      <div><span id="cd-d">00</span> kun</div>
+      <div><span id="cd-h">00</span> soat</div>
+      <div><span id="cd-m">00</span> daq</div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<!-- ================= INTERACTIVE PRICE DASHBOARD ================= -->
+<section id="narxlar">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">Interaktiv prays-list</div>
+        <h2>Avtomobilingizni tanlang</h2>
+      </div>
+      <p>Har bir model uchun mavjud xizmatlar va narxlar avtomatik ochiladi.</p>
+    </div>
+
+    <div class="car-grid" id="carGrid"></div>
+    <div id="emptyHint" class="empty-hint">Xizmatlar va narxlarni ko'rish uchun yuqoridan avtomobil modelini tanlang ↑</div>
+    <div class="panel" id="servicePanel"></div>
+  </div>
+</section>
+
+<!-- ================= BEFORE / AFTER ================= -->
+<section class="section-alt" id="ishlarimiz">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">Natijalar</div>
+        <h2>Oldin / Keyin</h2>
+      </div>
+      <p>Suratni chapga-o'ngga suring — har bir ish qanday boshlanib, qanday tugaganini ko'ring.</p>
+    </div>
+    <div class="ba-grid" id="baGrid"></div>
+  </div>
+</section>
+
+<!-- ================= VIDEO / PHOTO GALLERY ================= -->
+<section id="video">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">Media</div>
+        <h2>Qilingan ishlar</h2>
+      </div>
+      <p>Har bir loyihaning video va foto lavhalari — jarayon boshidan oxirigacha.</p>
+    </div>
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="videolar">Videolar</button>
+      <button class="tab-btn" data-tab="rasmlar">Rasmlar</button>
+    </div>
+    <div class="media-grid media-panel show" id="panel-videolar"></div>
+    <div class="media-grid media-panel" id="panel-rasmlar"></div>
+  </div>
+</section>
+
+<!-- ================= REVIEWS ================= -->
+<section class="section-alt" id="izohlar">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">Mijozlar fikri</div>
+        <h2>Izohlar</h2>
+      </div>
+      <p>Telegram guruhimizdagi mijoz fikrlari.</p>
+    </div>
+    <div class="review-scroll" id="reviewScroll"></div>
+    <div class="review-note">✈ Bu bo'lim Telegram guruhidagi haqiqiy mijoz xabarlari bilan avtomatik yangilanadigan qilib ulanadi — hozircha admin panelda kiritilgan izohlar ko'rsatilgan.</div>
+  </div>
+</section>
+
+<!-- ================= BLOG ================= -->
+<section id="blog">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">Bilim bazasi</div>
+        <h2>Maqolalar</h2>
+      </div>
+      <p>Mijozlar ko'p beradigan savollarga javoblar — nega bu xizmatlar kerak, qachon va qaysi birini tanlash lozim.</p>
+    </div>
+    <div class="blog-grid" id="blogGrid"></div>
+  </div>
+</section>
+
+
+
+
+
+<!-- ================= CONTACT ================= -->
+<section class="section-alt" id="aloqa">
+  <div class="wrap contact-grid">
+    <div>
+      <div class="eyebrow">Bog'lanish</div>
+      <h2>Biz bilan aloqa</h2>
+      <p style="color:var(--ink-soft); margin-top:14px; max-width:420px;">Savolingiz bormi yoki avtomobilingiz uchun narx bilmoqchimisiz? Quyidagi kanallardan birini tanlang.</p>
+      <div class="contact-list">
+        <a class="contact-row" href="tel:<%= settings.phone.replace(/\s/g,'') %>">
+          <span class="icon-btn">☎</span>
+          <span><b>Telefon</b><span style="display:block;"><%= settings.phone %></span></span>
+        </a>
+        <a class="contact-row" href="<%= settings.telegram %>" target="_blank" rel="noopener">
+          <span class="icon-btn">✈</span>
+          <span><b>Telegram</b><span style="display:block;"><%= settings.telegram %></span></span>
+        </a>
+        <a class="contact-row" href="<%= settings.instagram %>" target="_blank" rel="noopener">
+          <span class="icon-btn">◎</span>
+          <span><b>Instagram</b><span style="display:block;"><%= settings.instagram %></span></span>
+        </a>
+        <div class="contact-row">
+          <span class="icon-btn">⚑</span>
+          <span><b>Manzil</b><span style="display:block;"><%= settings.address %></span></span>
+        </div>
+      </div>
+
+      <div class="map-card">
+        <div class="map-head">
+          <b>Manzil xaritada</b>
+          <span>Google Maps</span>
+        </div>
+        <div class="map-wrap">
+          <iframe
+            id="mapEmbed"
+            src="https://www.google.com/maps?q=<%= encodeURIComponent(settings.mapQuery) %>&output=embed"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            allowfullscreen>
+          </iframe>
+        </div>
+        <p class="map-note">* Xaritani o'zgartirish uchun admin paneldagi "Sozlamalar" bo'limida manzil qidiruvini (map query) yangilang.</p>
+      </div>
+    </div>
+    <div class="form-card">
+      <h3 style="font-size:18px; text-transform:none;">Tez murojaat qoldiring</h3>
+      <form id="contactForm" onsubmit="return handleContactSubmit(event)">
+        <label for="cf-name">Ismingiz</label>
+        <input id="cf-name" required placeholder="Ismingiz">
+        <label for="cf-phone">Telefon raqamingiz</label>
+        <input id="cf-phone" required placeholder="+998 __ ___ __ __">
+        <label for="cf-car">Avtomobil modeli</label>
+        <select id="cf-car"></select>
+        <label for="cf-msg">Xabar (ixtiyoriy)</label>
+        <textarea id="cf-msg" placeholder="Qaysi xizmat kerak?"></textarea>
+        <button class="btn btn-accent" type="submit">Telegramga yuborish</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ================= TO'LOV USULLARI ================= -->
+<div class="payment-strip">
+  <div class="wrap payment-inner">
+    <span class="payment-label"><b>Bizda nasiya bor</b> - To'lov usullari:</span>
+    <div class="payment-logos">
+      <span class="payment-badge"><img src="/images/payment/payme.png" alt="Payme" title="Payme"></span>
+      <span class="payment-badge"><img src="/images/payment/click.png" alt="Click" title="Click"></span>
+      <span class="payment-badge"><img src="/images/payment/uzum-nasiya.png" alt="Uzum Nasiya" title="Uzum Nasiya"></span>
+      <span class="payment-badge"><img src="/images/payment/alif-nasiya.png" alt="Alif Nasiya" title="Alif Nasiya"></span>
+      <span class="payment-badge"><img src="/images/payment/tbc-nasiya.png" alt="TBC Nasiya" title="TBC Nasiya"></span>
+      <span class="payment-badge"><img src="/images/payment/anor-nasiya.png" alt="Anor Nasiya" title="Anor Nasiya"></span>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo"><%= settings.shopName %></div>
+        <p style="max-width:280px; font-size:13.5px;">Avtomobil saloni uchun shumoizolyatsiya, chexol, potolok va suv o'tkazmaslik xizmatlari — sifatli material, aniq narx.</p>
+      </div>
+      <div>
+        <h4>Xizmatlar</h4>
+        <a href="#narxlar">Shumoizolyatsiya</a>
+        <a href="#narxlar">Chexol tikish</a>
+        <a href="#narxlar">Potolok almashtirish</a>
+        <a href="#narxlar">Suv o'tkazmaslik</a>
+      </div>
+      <div>
+        <h4>Havolalar</h4>
+        <a href="#ishlarimiz">Ishlarimiz</a>
+        <a href="#izohlar">Izohlar</a>
+        <a href="#blog">Maqolalar</a>
+        <a href="#aloqa">Aloqa</a>
+      </div>
+      <div>
+        <h4>Ijtimoiy tarmoqlar</h4>
+        <a href="<%= settings.telegram %>" target="_blank" rel="noopener">Telegram</a>
+        <a href="<%= settings.instagram %>" target="_blank" rel="noopener">Instagram</a>
+        <% if (settings.youtube) { %><a href="<%= settings.youtube %>" target="_blank" rel="noopener">YouTube</a><% } %>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <%= new Date().getFullYear() %> <%= settings.shopName %>. Barcha huquqlar himoyalangan.</span>
+      <span><%= settings.footerNote %></span>
+    </div>
+  </div>
+</footer>
+
+<!-- ================= FLOATING QUICK CONTACT ================= -->
+<div class="fab-wrap">
+  <div class="fab-menu" id="fabMenu">
+    <a class="fab-item" href="<%= settings.telegram %>" target="_blank" rel="noopener"><span class="icon-btn">✈</span> Telegram</a>
+    <a class="fab-item" href="<%= settings.instagram %>" target="_blank" rel="noopener"><span class="icon-btn">◎</span> Instagram</a>
+    <a class="fab-item" href="tel:<%= settings.phone.replace(/\s/g,'') %>"><span class="icon-btn">☎</span> Qo'ng'iroq</a>
+  </div>
+  <button class="fab-main" id="fabMain" aria-label="Tezkor aloqa" onclick="toggleFab()">＋</button>
+</div>
+
+<!-- ================= STORY MODAL ================= -->
+<div class="modal-overlay" id="storyModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeStory()">✕</button>
+    <div class="modal-media" id="storyModalMedia">Rasm/Video</div>
+    <b id="storyModalTitle" style="font-family:'Oswald',sans-serif; text-transform:uppercase; font-size:15px;"></b>
+    <p id="storyModalDesc" style="font-size:13.5px; color:#9BA6A8; margin-top:6px;"></p>
+  </div>
+</div>
+
+<script>
+  window.SITE_DATA = <%- siteDataJson %>;
+</script>
+<script src="/js/site.js"></script>
+</body>
+</html>

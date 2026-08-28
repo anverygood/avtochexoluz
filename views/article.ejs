@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title><%= post.title %> — <%= settings.shopName %></title>
+<meta name="description" content="<%= post.excerpt %>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<!-- ================= NAV (bosh sahifa bilan bir xil) ================= -->
+<header class="site-nav">
+  <div class="wrap nav-row">
+    <a href="/" class="logo"><span class="dot"></span> <%= settings.shopName %></a>
+    <nav class="links">
+      <a href="/#narxlar">Narxlar</a>
+      <a href="/#ishlarimiz">Ishlarimiz</a>
+      <a href="/#video">Video/Foto</a>
+      <a href="/#izohlar">Izohlar</a>
+      <a href="/#blog">Maqolalar</a>
+      <a href="/#aloqa">Aloqa</a>
+    </nav>
+    <div class="nav-right">
+      <span class="nav-phone mono"><%= settings.phone %></span>
+      <a class="icon-btn" href="<%= settings.telegram %>" aria-label="Telegram" target="_blank" rel="noopener">✈</a>
+      <a class="icon-btn" href="<%= settings.instagram %>" aria-label="Instagram" target="_blank" rel="noopener">◎</a>
+    </div>
+  </div>
+</header>
+
+<!-- ================= ARTICLE ================= -->
+<article class="article-page">
+  <div class="wrap article-wrap">
+    <a href="/#blog" class="article-back">← Barcha maqolalar</a>
+
+    <div class="article-head">
+      <span class="blog-cat"><%= post.cat %></span>
+      <h1 class="article-title"><%= post.title %></h1>
+      <p class="article-excerpt"><%= post.excerpt %></p>
+    </div>
+
+    <% if (post.image) { %>
+      <div class="article-cover"><img src="<%= post.image %>" alt="<%= post.title %>"></div>
+    <% } %>
+
+    <div class="article-body">
+      <%- contentHtml %>
+    </div>
+
+    <div class="article-cta">
+      <div>
+        <b>Shu xizmat kerakmi?</b>
+        <span>Avtomobilingiz uchun narxni bilish uchun biz bilan bog'laning.</span>
+      </div>
+      <a class="btn btn-accent" href="/#aloqa">Bog'lanish</a>
+    </div>
+
+    <% if (related.length) { %>
+      <div class="article-related">
+        <h3>O'xshash maqolalar</h3>
+        <div class="blog-grid">
+          <% related.forEach(p => { %>
+            <a href="/blog/<%= p.id %>" class="blog-card" style="color:inherit;">
+              <div class="blog-thumb"><% if (p.image) { %><img src="<%= p.image %>" alt="<%= p.title %>" style="width:100%;height:100%;object-fit:cover;"><% } else { %>MAQOLA RASMI<% } %></div>
+              <div class="blog-body">
+                <span class="blog-cat"><%= p.cat %></span>
+                <h3><%= p.title %></h3>
+                <p><%= p.excerpt %></p>
+              </div>
+            </a>
+          <% }) %>
+        </div>
+      </div>
+    <% } %>
+  </div>
+</article>
+
+<!-- ================= FOOTER (bosh sahifa bilan bir xil) ================= -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo"><%= settings.shopName %></div>
+        <p style="max-width:280px; font-size:13.5px;">Avtomobil saloni uchun shumoizolyatsiya, chexol, potolok va suv o'tkazmaslik xizmatlari — sifatli material, aniq narx.</p>
+      </div>
+      <div>
+        <h4>Xizmatlar</h4>
+        <a href="/#narxlar">Shumoizolyatsiya</a>
+        <a href="/#narxlar">Chexol tikish</a>
+        <a href="/#narxlar">Potolok almashtirish</a>
+        <a href="/#narxlar">Suv o'tkazmaslik</a>
+      </div>
+      <div>
+        <h4>Havolalar</h4>
+        <a href="/#ishlarimiz">Ishlarimiz</a>
+        <a href="/#izohlar">Izohlar</a>
+        <a href="/#blog">Maqolalar</a>
+        <a href="/#aloqa">Aloqa</a>
+      </div>
+      <div>
+        <h4>Ijtimoiy tarmoqlar</h4>
+        <a href="<%= settings.telegram %>" target="_blank" rel="noopener">Telegram</a>
+        <a href="<%= settings.instagram %>" target="_blank" rel="noopener">Instagram</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <%= new Date().getFullYear() %> <%= settings.shopName %>. Barcha huquqlar himoyalangan.</span>
+      <span><%= settings.footerNote %></span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

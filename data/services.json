@@ -1,0 +1,11 @@
+[
+  { "id": 1, "name": "Full shumoizolyatsiya", "desc": "Eshik, tarpeda, potolok, pol, bagaj — barcha qismlar", "price": 1450000 },
+  { "id": 2, "name": "Shumoizolyatsiya — Eshiklar (4 ta)", "desc": "4 ta eshikni shovqin o'tkazmaydigan material bilan qoplash", "price": 520000 },
+  { "id": 3, "name": "Shumoizolyatsiya — Tarpeda", "desc": "Old panel qismini shumoizolyatsiya qilish", "price": 380000 },
+  { "id": 4, "name": "Shumoizolyatsiya — Potolok", "desc": "Salon shifti qismini shumoizolyatsiya qilish", "price": 360000 },
+  { "id": 5, "name": "Shumoizolyatsiya — Pol", "desc": "Salon poli qismini shumoizolyatsiya qilish", "price": 410000 },
+  { "id": 6, "name": "Chexol qayta tikish", "desc": "O'tirg'ichlar uchun chexolni qayta tikish/almashtirish", "price": 980000 },
+  { "id": 7, "name": "Salon poliki — suv o'tkazmaslik", "desc": "Kover uchun suv o'tkazmaydigan qoplama", "price": 340000 },
+  { "id": 8, "name": "Potolok matosi almashtirish", "desc": "Salon shifti matosini yangisiga almashtirish", "price": 610000 },
+  { "id": 9, "name": "Full Premium", "desc": "Barcha xizmatlar birga: shumoizolyatsiya + chexol + potolok + salon poliki", "price": 3200000 }
+]

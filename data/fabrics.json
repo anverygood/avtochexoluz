@@ -1,0 +1,8 @@
+[
+  { "id": 1, "name": "Qora koja", "mainColor": "#1c1c1c", "accentColor": "#3a3a3a", "swatchImage": "" },
+  { "id": 2, "name": "Jigarrang charm", "mainColor": "#4a2f22", "accentColor": "#2c1a12", "swatchImage": "" },
+  { "id": 3, "name": "Kulrang alkantara", "mainColor": "#6b6f72", "accentColor": "#2a2c2e", "swatchImage": "" },
+  { "id": 4, "name": "Bej koja", "mainColor": "#cfc2a8", "accentColor": "#8a7a5c", "swatchImage": "" },
+  { "id": 5, "name": "Qizil-qora sport", "mainColor": "#1a1a1a", "accentColor": "#b5182f", "swatchImage": "" },
+  { "id": 6, "name": "Ko'k sport", "mainColor": "#20242c", "accentColor": "#2e5c9c", "swatchImage": "" }
+]

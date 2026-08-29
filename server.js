@@ -31,5 +31,5 @@ app.use((req, res) => {
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
-    console.log(`Server ishga tushdi: ${PORT}`);
+    console.log(`Sayt ishga tushdi: http://localhost:${PORT}`);
 });

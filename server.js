@@ -29,8 +29,8 @@ app.use((req, res) => {
   res.status(404).send("Sahifa topilmadi. <a href='/'>Bosh sahifaga qaytish</a>");
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 
-app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Sayt ishga tushdi: port ${PORT}`);
+app.listen(PORT, () => {
+    console.log(`Server ${PORT}-portda ishga tushdi`);
 });

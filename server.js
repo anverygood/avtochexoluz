@@ -30,13 +30,8 @@ app.use((req, res) => {
 });
 
 
-const PORT = process.env.PORT; // Zaxira portni olib tashlaymiz, faqat Railway bergan portni ishlatamiz
+const PORT = process.env.PORT;
 
-if (!PORT) {
-    console.error("Xatolik: PORT topilmadi!");
-    process.exit(1);
-}
-
-app.listen(Number(PORT), '0.0.0.0', () => {
-    console.log(`Server muvaffaqiyatli ishga tushdi: port ${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server ishga tushdi: port ${PORT}`);
 });

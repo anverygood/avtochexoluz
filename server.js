@@ -33,5 +33,5 @@ app.use((req, res) => {
 const PORT = process.env.PORT;
 
 app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Server ishga tushdi: port ${PORT}`);
+    console.log(`START SERVER AVTOCHEXOL.UZ: port ${PORT}`);
 });
